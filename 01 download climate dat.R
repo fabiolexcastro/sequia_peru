@@ -1,9 +1,10 @@
 
-
 # Load libraries ----------------------------------------------------------
 require(pacman)
 p_load(terra, sf, tidyverse, gtools, rgeos, geodata, fs, glue, stringr, remotes)
 
+
+# Installing climateR library - it for downloading climate information
 remotes::install_github("mikejohnson51/climateR")
 library(climateR)
 
