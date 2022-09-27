@@ -42,9 +42,11 @@ terra::writeRaster(x = tmin, filename = glue('{dout}/tmin.tif'), overwrite = TRU
 rm(prec, tmax, tmin)
 
 # Download worldclim ------------------------------------------------------
-prec <- geodata::worldclim_country(country = 'COL', var = 'prec', path = './tmpr')
-tmax <- geodata::worldclim_country(country = 'COL', var = 'tmax', path = './tmpr')
-tmin <- geodata::worldclim_country(country = 'COL', var = 'tmin', path = './tmpr')
+
+# 1 kilometer
+prec <- geodata::worldclim_country(country = 'PER', var = 'prec', path = './tmpr')
+tmax <- geodata::worldclim_country(country = 'PER', var = 'tmax', path = './tmpr')
+tmin <- geodata::worldclim_country(country = 'PER', var = 'tmin', path = './tmpr')
 
 dout <- './tif/wc/peru'
 dir_create(dout)
@@ -52,3 +54,15 @@ dir_create(dout)
 terra::writeRaster(x = prec, filename = glue('{dout}/prec_1km.tif'), overwrite = TRUE)
 terra::writeRaster(x = tmax, filename = glue('{dout}/tmax_1km.tif'), overwrite = TRUE)
 terra::writeRaster(x = tmin, filename = glue('{dout}/tmin_1km.tif'), overwrite = TRUE)
+
+# 5 kilometer
+prec <- geodata::worldclim_global(res = 2.5, var = 'prec', path = './tmpr')
+prec <- terra::crop(prec, vect(peru)) %>% terra::mask(., vect(peru))
+tmax <- geodata::worldclim_global(res = 2.5, var = 'tmax', path = './tmpr')
+tmax <- terra::crop(tmax, vect(peru)) %>% terra::mask(., vect(peru))
+tmin <- geodata::worldclim_global(res = 2.5, var = 'tmin', path = './tmpr')
+tmin <- terra::crop(tmin, vect(peru)) %>% terra::mask(., vect(peru))
+
+terra::writeRaster(x = prec, filename = glue('{dout}/prec_5km.tif'), overwrite = TRUE)
+terra::writeRaster(x = tmax, filename = glue('{dout}/tmax_5km.tif'), overwrite = TRUE)
+terra::writeRaster(x = tmin, filename = glue('{dout}/tmin_5km.tif'), overwrite = TRUE)
